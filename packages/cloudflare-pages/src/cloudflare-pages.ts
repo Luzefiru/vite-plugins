@@ -17,6 +17,10 @@ type CloudflarePagesOptions = {
    */
   minify?: boolean
   emptyOutDir?: boolean
+  /**
+   * @default 'assets'
+   */
+  assetsDir?: string
 }
 
 export const defaultOptions: Required<CloudflarePagesOptions> = {
@@ -25,11 +29,13 @@ export const defaultOptions: Required<CloudflarePagesOptions> = {
   external: [],
   minify: true,
   emptyOutDir: false,
+  assetsDir: 'assets',
 }
 
 export const cloudflarePagesPlugin = (options?: CloudflarePagesOptions): Plugin => {
   const virtualEntryId = 'virtual:cloudflare-pages-entry-module'
   const resolvedVirtualEntryId = '\0' + virtualEntryId
+  const assetsDir = options?.assetsDir ?? defaultOptions.assetsDir;
 
   return {
     name: '@hono/vite-cloudflare-pages',
@@ -46,6 +52,7 @@ export const cloudflarePagesPlugin = (options?: CloudflarePagesOptions): Plugin 
               ? options.entry
               : [options.entry]
             : [...defaultOptions.entry],
+            assetsDir,
         })
       }
     },
@@ -67,6 +74,8 @@ export const cloudflarePagesPlugin = (options?: CloudflarePagesOptions): Plugin 
               entryFileNames: '_worker.js',
             },
           },
+          ssrEmitAssets: true,
+          assetsDir,
         },
       }
     },

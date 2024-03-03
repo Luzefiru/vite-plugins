@@ -2,6 +2,7 @@ import { normalize } from 'node:path'
 
 export type Options = {
   entry: string[]
+  assetsDir: string
 }
 
 const normalizePaths = (paths: string[]) => {
@@ -38,6 +39,7 @@ import { serveStatic } from 'hono/cloudflare-pages'
 const worker = new Hono()
 worker.get('/favicon.ico', serveStatic())
 worker.get('/static/*', serveStatic())
+worker.get('/${options.assetsDir}/*', serveStatic())
 
 ${appStr}
 
