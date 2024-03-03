@@ -64,6 +64,7 @@ type CloudflarePagesOptions = {
   external?: string[]
   minify?: boolean
   emptyOutDir?: boolean
+  assetsDir?: string
 }
 ```
 
@@ -76,6 +77,7 @@ export const defaultOptions = {
   external: [],
   minify: true,
   emptyOutDir: false,
+  assetsDir: 'assets',
 }
 ```
 
